@@ -33,6 +33,9 @@ function StarRating(props) {
       {new Array(parseInt(props.rating)).fill(0).map((x) => {
         return <span style={{ color: "red" }}>&#9733;</span>
       })}
+      {new Array(parseInt(5 - props.rating)).fill(0).map((x) => {
+        return <span>&#9734;</span>
+      })}
     </>
   )
 }
