@@ -1,0 +1,10 @@
+form label {
+    margin-right: 5px;
+}
+
+.error-span {
+    display: block;
+    color: red;
+    font-size: 0.8em;
+    font-weight: bolder;
+}
