@@ -8,3 +8,8 @@ form label {
     font-size: 0.8em;
     font-weight: bolder;
 }
+
+.leaflet-container {
+    height: 60vh;
+    width: 85vw;
+}
