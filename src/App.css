@@ -13,3 +13,7 @@ form label {
     height: 60vh;
     width: 85vw;
 }
+
+.my-position-map-marker {
+    opacity: 0.5;
+}
