@@ -9,9 +9,15 @@ form label {
     font-weight: bolder;
 }
 
-.leaflet-container {
+.reviews-view-map {
     height: 60vh;
     width: 85vw;
+}
+
+.choose-shop-map {
+    height: 50vh;
+    width: 45vw;
+    margin: auto;
 }
 
 .my-position-map-marker {

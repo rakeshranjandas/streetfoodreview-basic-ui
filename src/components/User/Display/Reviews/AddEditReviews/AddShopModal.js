@@ -4,6 +4,7 @@ import {
   validate,
   ErrorSpan,
 } from "../../../../Common/inputFieldValidation"
+import ChooseShopLocationMap from "./ChooseShopLocationMap"
 
 const modalStyles = {
   position: "fixed",
@@ -20,10 +21,9 @@ const modalStyles = {
 const modalContentStyles = {
   backgroundColor: "#fefefe",
   margin: "auto",
-  marginTop: "10%",
   padding: "20px",
   border: "1px solid #888",
-  width: "25%",
+  width: "50%",
 }
 
 const closeStyles = {
@@ -88,6 +88,8 @@ export default function AddShopModal(props) {
         <span style={closeStyles} onClick={closeModal}>
           &times;
         </span>
+
+        <ChooseShopLocationMap />
 
         <form ref={form}>
           <p>

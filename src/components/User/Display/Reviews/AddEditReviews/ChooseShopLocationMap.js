@@ -5,12 +5,12 @@ import { Marker, Popup } from "react-leaflet"
 import {
   DefaultCenter,
   MyPositionIcon,
-  ReviewsMapContainerSettings,
-} from "../../../Common/Map/MapSettings"
+  ChooseShopMapContainerSettings,
+} from "../../../../Common/Map/MapSettings"
 
-import CustomMapContainer from "../../../Common/Map/CustomMapContainer"
+import CustomMapContainer from "../../../../Common/Map/CustomMapContainer"
 
-export default function ReviewsViewMap() {
+export default function ChooseShopLocationMap() {
   const [centerPosition, setCenterPosition] = React.useState(DefaultCenter)
 
   React.useEffect(() => {
@@ -23,10 +23,10 @@ export default function ReviewsViewMap() {
 
   return (
     <CustomMapContainer
-      mapSettings={ReviewsMapContainerSettings}
+      mapSettings={ChooseShopMapContainerSettings}
       center={centerPosition}
     >
-      <Marker position={centerPosition} icon={MyPositionIcon}>
+      <Marker position={centerPosition} icon={MyPositionIcon} draggable={true}>
         <Popup>I am here.</Popup>
       </Marker>
     </CustomMapContainer>
