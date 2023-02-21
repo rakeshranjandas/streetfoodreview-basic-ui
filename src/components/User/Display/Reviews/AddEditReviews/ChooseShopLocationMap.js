@@ -9,10 +9,7 @@ import {
 } from "../../../../Common/Map/MapSettings"
 
 import CustomMapContainer from "../../../../Common/Map/CustomMapContainer"
-
-function toLocationString(lat, lng) {
-  return lat + "," + lng
-}
+import { LatLngToLocationStr } from "../../../../Common/MapLocationConvert"
 
 export default function ChooseShopLocationMap(props) {
   const [centerPosition, setCenterPosition] = React.useState(DefaultCenter)
@@ -22,7 +19,7 @@ export default function ChooseShopLocationMap(props) {
       navigator.geolocation.getCurrentPosition((pos) => {
         setCenterPosition([pos.coords.latitude, pos.coords.longitude])
         props.setLocation(
-          toLocationString(pos.coords.latitude, pos.coords.longitude)
+          LatLngToLocationStr(pos.coords.latitude, pos.coords.longitude)
         )
       })
     }
@@ -34,7 +31,7 @@ export default function ChooseShopLocationMap(props) {
     drag: () => {
       const markerLocation = markerRef.current.getLatLng()
       props.setLocation(
-        toLocationString(markerLocation.lat, markerLocation.lng)
+        LatLngToLocationStr(markerLocation.lat, markerLocation.lng)
       )
     },
   }
