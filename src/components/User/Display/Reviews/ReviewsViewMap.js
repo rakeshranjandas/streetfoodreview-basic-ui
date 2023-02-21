@@ -1,17 +1,17 @@
 import React from "react"
-import "leaflet/dist/leaflet.css"
 
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
+import { Marker, Popup } from "react-leaflet"
+
 import {
+  DefaultCenter,
   MyPositionIcon,
-  TileLayerSettings,
   ReviewsMapContainerSettings,
-} from "./ReviewsViewMapSettings"
+} from "../../../Common/Map/MapSettings"
+
+import CustomMapContainer from "../../../Common/Map/CustomMapContainer"
 
 export default function ReviewsViewMap() {
-  const [centerPosition, setCenterPosition] = React.useState([
-    20.296059, 85.824539,
-  ])
+  const [centerPosition, setCenterPosition] = React.useState(DefaultCenter)
 
   React.useEffect(() => {
     if (navigator.geolocation) {
@@ -22,17 +22,13 @@ export default function ReviewsViewMap() {
   }, [])
 
   return (
-    <MapContainer center={centerPosition} {...ReviewsMapContainerSettings}>
-      <TileLayer {...TileLayerSettings} />
-      <CenterMapContainerOnLoad center={centerPosition} />
-      <Marker position={centerPosition} icon={MyPositionIcon}>
+    <CustomMapContainer
+      mapSettings={ReviewsMapContainerSettings}
+      center={centerPosition}
+    >
+      <Marker position={centerPosition} icon={MyPositionIcon} draggable={true}>
         <Popup>I am here.</Popup>
       </Marker>
-    </MapContainer>
+    </CustomMapContainer>
   )
-}
-
-function CenterMapContainerOnLoad(props) {
-  const map = useMap()
-  map.setView(props.center)
 }
