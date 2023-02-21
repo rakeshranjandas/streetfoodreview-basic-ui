@@ -10,23 +10,47 @@ import {
 
 import CustomMapContainer from "../../../../Common/Map/CustomMapContainer"
 
-export default function ChooseShopLocationMap() {
+function toLocationString(lat, lng) {
+  return lat + "," + lng
+}
+
+export default function ChooseShopLocationMap(props) {
   const [centerPosition, setCenterPosition] = React.useState(DefaultCenter)
 
   React.useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         setCenterPosition([pos.coords.latitude, pos.coords.longitude])
+        props.setLocation(
+          toLocationString(pos.coords.latitude, pos.coords.longitude)
+        )
       })
     }
   }, [])
+
+  const markerRef = React.useRef()
+
+  const markerEventHandlers = {
+    drag: () => {
+      const markerLocation = markerRef.current.getLatLng()
+      props.setLocation(
+        toLocationString(markerLocation.lat, markerLocation.lng)
+      )
+    },
+  }
 
   return (
     <CustomMapContainer
       mapSettings={ChooseShopMapContainerSettings}
       center={centerPosition}
     >
-      <Marker position={centerPosition} icon={MyPositionIcon} draggable={true}>
+      <Marker
+        position={centerPosition}
+        icon={MyPositionIcon}
+        draggable={true}
+        eventHandlers={markerEventHandlers}
+        ref={markerRef}
+      >
         <Popup>I am here.</Popup>
       </Marker>
     </CustomMapContainer>

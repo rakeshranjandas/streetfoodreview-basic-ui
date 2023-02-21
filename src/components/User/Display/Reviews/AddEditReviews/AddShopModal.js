@@ -50,6 +50,7 @@ const urlAddShop = `http://localhost:8081/v1/shop`
 
 export default function AddShopModal(props) {
   const [error, setError] = React.useState({})
+  const [location, setLocation] = React.useState("")
 
   const form = React.useRef()
 
@@ -89,17 +90,23 @@ export default function AddShopModal(props) {
           &times;
         </span>
 
-        <ChooseShopLocationMap />
+        <ChooseShopLocationMap setLocation={setLocation} />
 
         <form ref={form}>
           <p>
             <label for="location">Location:</label>
-            <input type="text" name="location" id="location" />
+            <span style={{ color: "blue", fontSize: "0.8em" }}>{location}</span>
+            <input
+              type="hidden"
+              name="location"
+              id="location"
+              value={location}
+            />
             <ErrorSpan error={error.location} />
           </p>
           <p>
             <label for="name">Name:</label>
-            <input type="text" name="name" id="name" />
+            <input type="text" name="name" id="name" style={{ width: "80%" }} />
             <ErrorSpan error={error.name} />
           </p>
           <p>

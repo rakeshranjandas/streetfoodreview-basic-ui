@@ -22,7 +22,7 @@ export const ReviewsMapContainerSettings = {
 }
 
 export const ChooseShopMapContainerSettings = {
-  zoom: 15,
+  zoom: 20,
   scrollWheelZoom: true,
   className: "choose-shop-map",
 }
