@@ -54,12 +54,21 @@ export default function ReviewsViewMap(props) {
 
 function ShopMarker(props) {
   const locationObj = LocationStrToLatLng(props.shop.location)
+  const [dynamicContent, setDynamicContent] = React.useState("hasds")
 
   return (
-    <Marker
-      position={[locationObj.lat, locationObj.lng]}
-      icon={ShopIcon}
-    ></Marker>
+    <Marker position={[locationObj.lat, locationObj.lng]} icon={ShopIcon}>
+      <Popup maxWidth="auto">
+        <p
+          onClick={(e) => {
+            const dynamicContent = e.target.innerText + " More "
+            setDynamicContent(dynamicContent)
+          }}
+        >
+          {dynamicContent}
+        </p>
+      </Popup>
+    </Marker>
   )
 }
 
