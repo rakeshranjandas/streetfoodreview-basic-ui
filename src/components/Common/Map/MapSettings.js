@@ -1,17 +1,19 @@
-import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import myPositionMarkerIconPng from "leaflet/dist/images/marker-icon.png"
+import shopMarkerIconPng from "../../../assets/shop-marker.png"
+
 import { Icon } from "leaflet"
 
 export const DefaultCenter = [20.296059, 85.824539]
 
 export const MyPositionIcon = new Icon({
-  iconUrl: markerIconPng,
+  iconUrl: myPositionMarkerIconPng,
   iconSize: [20, 32],
   className: "my-position-map-marker",
 })
 
 export const ShopIcon = new Icon({
-  iconUrl: markerIconPng,
-  iconSize: [20, 32],
+  iconUrl: shopMarkerIconPng,
+  iconSize: [22, 32],
   className: "shop-map-marker",
 })
 

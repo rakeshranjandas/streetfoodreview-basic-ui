@@ -19,11 +19,3 @@ form label {
     width: 45vw;
     margin: auto;
 }
-
-.my-position-map-marker {
-    opacity: 0.5;
-}
-
-.shop-map-marker {
-    filter: invert(100%);
-}
