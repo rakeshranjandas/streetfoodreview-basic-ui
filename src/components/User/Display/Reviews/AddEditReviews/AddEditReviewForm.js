@@ -8,7 +8,7 @@ import {
 
 const formFieldValidationRules = {
   shopId: {
-    rules: ["NON_ZERO"],
+    rules: [validationRules.NON_ZERO],
     message: "Please select a shop.",
   },
 }

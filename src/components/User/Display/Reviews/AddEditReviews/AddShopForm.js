@@ -7,11 +7,11 @@ import {
 
 const formFieldValidationRules = {
   location: {
-    rules: ["NON_EMPTY"],
+    rules: [validationRules.NON_EMPTY],
     message: "Location cannot be blank.",
   },
   name: {
-    rules: ["NON_EMPTY"],
+    rules: [validationRules.NON_EMPTY],
     message: "Name cannot be blank.",
   },
 }

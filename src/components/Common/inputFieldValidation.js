@@ -20,10 +20,12 @@ export function validate(data, rules) {
     let rulesArr = rules[key]
 
     rulesArr.rules.map((rule) => {
-      if (!validationRules[rule](data[key])) {
+      if (!rule(data[key])) {
         error[key] = rulesArr.message
         return false
       }
+
+      return false
     })
   })
 
