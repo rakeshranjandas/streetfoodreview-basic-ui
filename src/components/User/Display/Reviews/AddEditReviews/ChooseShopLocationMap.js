@@ -4,6 +4,7 @@ import { Marker, Popup } from "react-leaflet"
 
 import {
   DefaultCenter,
+  PinPositionIcon,
   MyPositionIcon,
   ChooseShopMapContainerSettings,
 } from "../../../../Common/Map/MapSettings"
@@ -41,9 +42,11 @@ export default function ChooseShopLocationMap(props) {
       mapSettings={ChooseShopMapContainerSettings}
       center={centerPosition}
     >
+      <Marker position={centerPosition} icon={MyPositionIcon} />
+
       <Marker
         position={centerPosition}
-        icon={MyPositionIcon}
+        icon={PinPositionIcon}
         draggable={true}
         eventHandlers={markerEventHandlers}
         ref={markerRef}
