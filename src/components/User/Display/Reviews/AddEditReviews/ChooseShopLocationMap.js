@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Marker, Popup } from "react-leaflet"
+import { Marker, Popup, useMapEvents } from "react-leaflet"
 
 import {
   DefaultCenter,
@@ -14,11 +14,15 @@ import { LatLngToLocationStr } from "../../../../Common/MapLocationConvert"
 
 export default function ChooseShopLocationMap(props) {
   const [centerPosition, setCenterPosition] = React.useState(DefaultCenter)
+  const [addShopMarkerLocation, setAddShopMarkerLocation] =
+    React.useState(centerPosition)
 
   React.useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
-        setCenterPosition([pos.coords.latitude, pos.coords.longitude])
+        const newPos = [pos.coords.latitude, pos.coords.longitude]
+        setCenterPosition(newPos)
+        setAddShopMarkerLocation(newPos)
         props.setLocation(
           LatLngToLocationStr(pos.coords.latitude, pos.coords.longitude)
         )
@@ -28,12 +32,16 @@ export default function ChooseShopLocationMap(props) {
 
   const markerRef = React.useRef()
 
+  function updateMarkerLocation() {
+    const markerLocation = markerRef.current.getLatLng()
+    props.setLocation(
+      LatLngToLocationStr(markerLocation.lat, markerLocation.lng)
+    )
+  }
+
   const markerEventHandlers = {
     drag: () => {
-      const markerLocation = markerRef.current.getLatLng()
-      props.setLocation(
-        LatLngToLocationStr(markerLocation.lat, markerLocation.lng)
-      )
+      updateMarkerLocation()
     },
   }
 
@@ -42,17 +50,32 @@ export default function ChooseShopLocationMap(props) {
       mapSettings={ChooseShopMapContainerSettings}
       center={centerPosition}
     >
-      <Marker position={centerPosition} icon={MyPositionIcon} />
+      <Marker position={centerPosition} icon={MyPositionIcon}>
+        <Popup>I am here.</Popup>{" "}
+      </Marker>
+
+      <ClickLayer
+        updateMarkerLocationToTarget={(newPos) => {
+          setAddShopMarkerLocation(newPos)
+          updateMarkerLocation()
+        }}
+      />
 
       <Marker
-        position={centerPosition}
+        position={addShopMarkerLocation}
         icon={PinPositionIcon}
         draggable={true}
         eventHandlers={markerEventHandlers}
         ref={markerRef}
-      >
-        <Popup>I am here.</Popup>
-      </Marker>
+      ></Marker>
     </CustomMapContainer>
   )
+}
+
+function ClickLayer(props) {
+  useMapEvents({
+    click: (e) => {
+      props.updateMarkerLocationToTarget([e.latlng.lat, e.latlng.lng])
+    },
+  })
 }
