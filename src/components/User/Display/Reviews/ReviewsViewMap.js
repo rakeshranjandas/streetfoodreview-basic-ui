@@ -1,25 +1,29 @@
 import React from "react"
 
-import { Marker } from "react-leaflet"
+import { Marker, Popup, useMapEvents } from "react-leaflet"
 
 import {
   DefaultCenter,
-  MyPositionIcon,
+  PinPositionIcon,
   ShopIcon,
   ReviewsMapContainerSettings,
 } from "../../../Common/Map/MapSettings"
 
 import CustomMapContainer from "../../../Common/Map/CustomMapContainer"
-import AddNewShopClickableLayer from "./AddNewShopClickableLayer"
 import { LocationStrToLatLng } from "../../../Common/MapLocationConvert"
+import AddShopForm from "./AddEditReviews/AddShopForm"
 
 export default function ReviewsViewMap(props) {
   const [centerPosition, setCenterPosition] = React.useState(DefaultCenter)
+  const [addShopMarkerLocation, setAddShopMarkerLocation] =
+    React.useState(centerPosition)
 
   React.useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
-        setCenterPosition([pos.coords.latitude, pos.coords.longitude])
+        const newPos = [pos.coords.latitude, pos.coords.longitude]
+        setCenterPosition(newPos)
+        setAddShopMarkerLocation(newPos)
       })
     }
   }, [])
@@ -29,8 +33,17 @@ export default function ReviewsViewMap(props) {
       mapSettings={ReviewsMapContainerSettings}
       center={centerPosition}
     >
-      <AddNewShopClickableLayer />
-      <Marker position={centerPosition} icon={MyPositionIcon}></Marker>
+      <ClickLayer setAddShopMarkerLocation={setAddShopMarkerLocation} />
+
+      <Marker
+        position={addShopMarkerLocation}
+        icon={PinPositionIcon}
+        draggable={true}
+      >
+        <Popup>
+          <AddShopForm />
+        </Popup>
+      </Marker>
 
       {props.shops.map((shop) => {
         return <ShopMarker shop={shop} />
@@ -48,4 +61,13 @@ function ShopMarker(props) {
       icon={ShopIcon}
     ></Marker>
   )
+}
+
+function ClickLayer(props) {
+  useMapEvents({
+    click: function (e) {
+      console.log(e.latlng)
+      props.setAddShopMarkerLocation([e.latlng.lat, e.latlng.lng])
+    },
+  })
 }
