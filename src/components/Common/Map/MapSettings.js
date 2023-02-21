@@ -9,6 +9,12 @@ export const MyPositionIcon = new Icon({
   className: "my-position-map-marker",
 })
 
+export const ShopIcon = new Icon({
+  iconUrl: markerIconPng,
+  iconSize: [20, 32],
+  className: "shop-map-marker",
+})
+
 export const TileLayerSettings = {
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',

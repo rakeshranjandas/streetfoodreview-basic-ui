@@ -13,7 +13,11 @@ export default function ReviewsView(props) {
         />
       )}
       {props.currentView === ReviewsViewTypes.MAP && (
-        <ReviewsViewMap reviews={props.reviews} />
+        <ReviewsViewMap
+          reviews={props.reviews}
+          shops={props.shops}
+          addNewShop={props.addNewShop}
+        />
       )}
     </div>
   )

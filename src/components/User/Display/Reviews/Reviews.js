@@ -80,6 +80,8 @@ export default function Reviews() {
         currentView={currentView}
         reviews={reviews}
         showModalWithReview={showModalWithReview}
+        shops={shops}
+        addNewShop={addNewShop}
       />
     </div>
   )

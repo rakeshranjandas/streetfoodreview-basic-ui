@@ -23,3 +23,7 @@ form label {
 .my-position-map-marker {
     opacity: 0.5;
 }
+
+.shop-map-marker {
+    filter: invert(100%);
+}
