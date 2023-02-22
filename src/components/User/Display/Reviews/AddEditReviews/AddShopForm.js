@@ -45,11 +45,23 @@ export default function AddShopForm(props) {
         props.addNewShop(json)
         !!props.setCurrentShop && props.setCurrentShop(json.id)
         !!props.closeModal && props.closeModal()
+        resetShopName()
       })
   }
 
+  const [shopName, setShopName] = React.useState("")
+  const shopNameRef = React.useRef()
+  function shopNameChange(e) {
+    const updatedShopName = e.target.value
+    setShopName(updatedShopName)
+  }
+
+  function resetShopName() {
+    setShopName("")
+  }
+
   return (
-    <form ref={form}>
+    <form ref={formRef}>
       <p>
         <label for="location">Location:</label>
         <span style={{ color: "blue", fontSize: "0.8em" }}>
@@ -65,7 +77,15 @@ export default function AddShopForm(props) {
       </p>
       <p>
         <label for="name">Name:</label>
-        <input type="text" name="name" id="name" style={{ width: "80%" }} />
+        <input
+          type="text"
+          name="name"
+          id="name"
+          style={{ width: "80%" }}
+          ref={shopNameRef}
+          value={shopName}
+          onChange={shopNameChange}
+        />
         <ErrorSpan error={error.name} />
       </p>
       <p>
