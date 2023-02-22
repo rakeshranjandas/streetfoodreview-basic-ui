@@ -21,10 +21,10 @@ const urlAddShop = `http://localhost:8081/v1/shop`
 export default function AddShopForm(props) {
   const [error, setError] = React.useState({})
 
-  const form = React.useRef()
+  const formRef = React.useRef()
 
   function doSubmit() {
-    const formData = new FormData(form.current)
+    const formData = new FormData(formRef.current)
     const formValues = Object.fromEntries(formData.entries())
 
     const validationError = validate(formValues, formFieldValidationRules)
