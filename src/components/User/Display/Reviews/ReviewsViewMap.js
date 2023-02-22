@@ -28,20 +28,45 @@ export default function ReviewsViewMap(props) {
     }
   }, [])
 
+  const popupElRef = React.useRef()
+  function closePopup() {
+    popupElRef.current._closeButton.click()
+  }
+
+  const markerRef = React.useRef()
+  function moveShopMarkerLocationAndRecenter(newPosArr) {
+    setAddShopMarkerLocation(newPosArr)
+    setCenterPosition(newPosArr)
+  }
+
   return (
     <CustomMapContainer
       mapSettings={ReviewsMapContainerSettings}
       center={centerPosition}
     >
-      <ClickLayer setAddShopMarkerLocation={setAddShopMarkerLocation} />
+      <ClickLayer
+        moveShopMarkerLocationAndRecenter={moveShopMarkerLocationAndRecenter}
+      />
 
       <Marker
+        ref={markerRef}
         position={addShopMarkerLocation}
         icon={PinPositionIcon}
         draggable={true}
+        eventHandlers={{
+          dragend: () => {
+            const markerPosLatLng = markerRef.current._latlng
+            const newPosArr = [markerPosLatLng.lat, markerPosLatLng.lng]
+            moveShopMarkerLocationAndRecenter(newPosArr)
+          },
+        }}
       >
-        <Popup>
-          <AddShopForm />
+        <Popup ref={popupElRef}>
+          <AddShopForm
+            location={addShopMarkerLocation}
+            addNewShop={props.addNewShop}
+            closeModal={closePopup}
+          />
         </Popup>
       </Marker>
 
@@ -75,8 +100,8 @@ function ShopMarker(props) {
 function ClickLayer(props) {
   useMapEvents({
     click: function (e) {
-      console.log(e.latlng)
-      props.setAddShopMarkerLocation([e.latlng.lat, e.latlng.lng])
+      let newPosArr = [e.latlng.lat, e.latlng.lng]
+      props.moveShopMarkerLocationAndRecenter(newPosArr)
     },
   })
 }
