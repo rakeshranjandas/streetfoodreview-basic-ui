@@ -32,8 +32,8 @@ export default function ChooseShopLocationMap(props) {
 
   const markerRef = React.useRef()
 
-  function updateMarkerLocation() {
-    const markerLocation = markerRef.current.getLatLng()
+  function updateMarkerLocation(newPos) {
+    const markerLocation = newPos ?? markerRef.current.getLatLng()
     props.setLocation(
       LatLngToLocationStr(markerLocation.lat, markerLocation.lng)
     )
@@ -57,7 +57,7 @@ export default function ChooseShopLocationMap(props) {
       <ClickLayer
         updateMarkerLocationToTarget={(newPos) => {
           setAddShopMarkerLocation(newPos)
-          updateMarkerLocation()
+          updateMarkerLocation({ lat: newPos[0], lng: newPos[1] })
         }}
       />
 
