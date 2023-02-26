@@ -12,6 +12,7 @@ import {
 import CustomMapContainer from "../../../Common/Map/CustomMapContainer"
 import { LocationStrToLatLng } from "../../../Common/MapLocationConvert"
 import AddShopForm from "./AddEditReviews/AddShopForm"
+import AddEditReviewForm from "./AddEditReviews/AddEditReviewForm"
 
 export default function ReviewsViewMap(props) {
   const [centerPosition, setCenterPosition] = React.useState(DefaultCenter)
@@ -22,16 +23,10 @@ export default function ReviewsViewMap(props) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         const newPos = [pos.coords.latitude, pos.coords.longitude]
-        setCenterPosition(newPos)
-        setAddShopMarkerLocation(newPos)
+        moveShopMarkerLocationAndRecenter(newPos)
       })
     }
   }, [])
-
-  const popupElRef = React.useRef()
-  function closePopup() {
-    popupElRef.current._closeButton.click()
-  }
 
   const markerRef = React.useRef()
   function moveShopMarkerLocationAndRecenter(newPosArr) {
@@ -39,61 +34,90 @@ export default function ReviewsViewMap(props) {
     setCenterPosition(newPosArr)
   }
 
+  const [showMapOverlay, setShowMapOverlay] = React.useState(false)
+  const [overlayView, setOverlayView] = React.useState("add_shop")
+  const [overlayAddShopPosition, setOverlayAddShopPosition] = React.useState("")
+  const [overlayShowReview, setOverlayShowReview] = React.useState({})
+
+  function closeOverlay() {
+    setShowMapOverlay(false)
+  }
+
+  function showAddShopInOverlay() {
+    setOverlayView("add_shop")
+    setShowMapOverlay(true)
+  }
+
+  function showAddReviewInOverlay() {
+    setOverlayView("add_review")
+    setShowMapOverlay(true)
+  }
+
   return (
-    <CustomMapContainer
-      mapSettings={ReviewsMapContainerSettings}
-      center={centerPosition}
-    >
-      <ClickLayer
-        moveShopMarkerLocationAndRecenter={moveShopMarkerLocationAndRecenter}
+    <div style={{ position: "absolute" }}>
+      <ReviewsViewMapOverlay
+        showMapOverlay={showMapOverlay}
+        setShowMapOverlay={setShowMapOverlay}
+        overlayView={overlayView}
+        overlayAddShopPosition={overlayAddShopPosition}
+        overlayShowReview={overlayShowReview}
       />
 
-      <Marker
-        ref={markerRef}
-        position={addShopMarkerLocation}
-        icon={PinPositionIcon}
-        draggable={true}
-        eventHandlers={{
-          dragend: () => {
-            const markerPosLatLng = markerRef.current._latlng
-            const newPosArr = [markerPosLatLng.lat, markerPosLatLng.lng]
-            moveShopMarkerLocationAndRecenter(newPosArr)
-          },
-        }}
+      <CustomMapContainer
+        mapSettings={ReviewsMapContainerSettings}
+        center={centerPosition}
       >
-        <Popup ref={popupElRef}>
-          <AddShopForm
-            location={addShopMarkerLocation}
-            addNewShop={props.addNewShop}
-            closeModal={closePopup}
-          />
-        </Popup>
-      </Marker>
+        <ClickLayer
+          moveShopMarkerLocationAndRecenter={moveShopMarkerLocationAndRecenter}
+          closeOverlay={closeOverlay}
+        />
 
-      {props.shops.map((shop) => {
-        return <ShopMarker shop={shop} />
-      })}
-    </CustomMapContainer>
+        <Marker
+          ref={markerRef}
+          position={addShopMarkerLocation}
+          icon={PinPositionIcon}
+          draggable={true}
+          eventHandlers={{
+            dragend: () => {
+              const markerPosLatLng = markerRef.current._latlng
+              const newPosArr = [markerPosLatLng.lat, markerPosLatLng.lng]
+              moveShopMarkerLocationAndRecenter(newPosArr)
+            },
+            click: () => {
+              showAddShopInOverlay()
+            },
+          }}
+        />
+
+        {props.shops.map((shop) => {
+          return (
+            <ShopMarker
+              shop={shop}
+              showAddReviewInOverlay={showAddReviewInOverlay}
+              setCenterPosition={setCenterPosition}
+            />
+          )
+        })}
+      </CustomMapContainer>
+    </div>
   )
 }
 
 function ShopMarker(props) {
   const locationObj = LocationStrToLatLng(props.shop.location)
-  const [dynamicContent, setDynamicContent] = React.useState("hasds")
+  const shopPosArr = [locationObj.lat, locationObj.lng]
 
   return (
-    <Marker position={[locationObj.lat, locationObj.lng]} icon={ShopIcon}>
-      <Popup maxWidth="auto">
-        <p
-          onClick={(e) => {
-            const dynamicContent = e.target.innerText + " More "
-            setDynamicContent(dynamicContent)
-          }}
-        >
-          {dynamicContent}
-        </p>
-      </Popup>
-    </Marker>
+    <Marker
+      position={shopPosArr}
+      icon={ShopIcon}
+      eventHandlers={{
+        click: (e) => {
+          props.setCenterPosition(shopPosArr)
+          props.showAddReviewInOverlay()
+        },
+      }}
+    ></Marker>
   )
 }
 
@@ -102,6 +126,47 @@ function ClickLayer(props) {
     click: function (e) {
       let newPosArr = [e.latlng.lat, e.latlng.lng]
       props.moveShopMarkerLocationAndRecenter(newPosArr)
+      props.closeOverlay()
     },
   })
+}
+
+function ReviewsViewMapOverlay(props) {
+  const overlayStyles = {
+    backgroundColor: "grey",
+    width: props.showMapOverlay ? "40%" : "0%",
+    height: "100%",
+    position: "absolute",
+    zIndex: 10000,
+    right: 0,
+    border: "1px solid",
+    transition: "width 1s",
+  }
+
+  const innerDivStyles = {
+    backgroundColor: "white",
+    opacity: props.showMapOverlay ? 1 : 0,
+    position: "absolute",
+    width: "100%",
+    transition: "all 1s",
+  }
+
+  function closeOverlay() {
+    props.setShowMapOverlay(false)
+  }
+
+  return (
+    <div style={overlayStyles}>
+      <div style={innerDivStyles}>
+        <button
+          style={{ float: "right", border: "none", cursor: "pointer" }}
+          onClick={closeOverlay}
+        >
+          X
+        </button>
+        {props.overlayView == "add_shop" && <AddShopForm />}
+        {props.overlayView == "add_review" && <AddEditReviewForm />}
+      </div>
+    </div>
+  )
 }
