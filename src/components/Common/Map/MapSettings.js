@@ -29,7 +29,7 @@ export const TileLayerSettings = {
 }
 
 export const ReviewsMapContainerSettings = {
-  zoom: 15,
+  zoom: 17,
   scrollWheelZoom: true,
   className: "reviews-view-map",
 }
