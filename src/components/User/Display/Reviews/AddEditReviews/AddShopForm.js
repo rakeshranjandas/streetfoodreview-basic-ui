@@ -44,7 +44,7 @@ export default function AddShopForm(props) {
       .then((json) => {
         props.addNewShop(json)
         !!props.setCurrentShop && props.setCurrentShop(json.id)
-        !!props.closeModal && props.closeModal()
+        !!props.closeFormAction && props.closeFormAction()
         resetShopName()
       })
   }
@@ -94,7 +94,7 @@ export default function AddShopForm(props) {
         </button>
         <button
           type="button"
-          onClick={props.closeModal}
+          onClick={props.closeFormAction}
           style={{ marginLeft: "10px" }}
         >
           Cancel

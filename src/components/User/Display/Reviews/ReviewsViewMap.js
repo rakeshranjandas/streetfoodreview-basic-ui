@@ -14,6 +14,8 @@ import { LocationStrToLatLng } from "../../../Common/MapLocationConvert"
 import AddShopForm from "./AddEditReviews/AddShopForm"
 import AddEditReviewForm from "./AddEditReviews/AddEditReviewForm"
 
+import { LatLngToLocationStr } from "../../../Common/MapLocationConvert"
+
 export default function ReviewsViewMap(props) {
   const [centerPosition, setCenterPosition] = React.useState(DefaultCenter)
   const [addShopMarkerLocation, setAddShopMarkerLocation] =
@@ -61,6 +63,7 @@ export default function ReviewsViewMap(props) {
         overlayView={overlayView}
         overlayAddShopPosition={overlayAddShopPosition}
         overlayShowReview={overlayShowReview}
+        addNewShop={props.addNewShop}
       />
 
       <CustomMapContainer
@@ -82,9 +85,13 @@ export default function ReviewsViewMap(props) {
               const markerPosLatLng = markerRef.current._latlng
               const newPosArr = [markerPosLatLng.lat, markerPosLatLng.lng]
               moveShopMarkerLocationAndRecenter(newPosArr)
+              closeOverlay()
             },
             click: () => {
+              const markerPosLatLng = markerRef.current._latlng
+              const newPosArr = [markerPosLatLng.lat, markerPosLatLng.lng]
               showAddShopInOverlay()
+              setOverlayAddShopPosition(newPosArr)
             },
           }}
         />
@@ -164,7 +171,16 @@ function ReviewsViewMapOverlay(props) {
         >
           X
         </button>
-        {props.overlayView == "add_shop" && <AddShopForm />}
+        {props.overlayView == "add_shop" && (
+          <AddShopForm
+            location={LatLngToLocationStr(
+              props.overlayAddShopPosition[0],
+              props.overlayAddShopPosition[1]
+            )}
+            addNewShop={props.addNewShop}
+            closeFormAction={closeOverlay}
+          />
+        )}
         {props.overlayView == "add_review" && <AddEditReviewForm />}
       </div>
     </div>
