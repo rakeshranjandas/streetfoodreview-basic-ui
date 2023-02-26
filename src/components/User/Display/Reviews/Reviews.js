@@ -32,14 +32,32 @@ export default function Reviews() {
   }
 
   function updateReviews(review) {
+    addToReviews(review)
+    addToShop(review)
+  }
+
+  function addToReviews(review) {
     const newReviews = [...reviews]
-    console.log("r", reviews)
     const index = newReviews.findIndex((x) => x.id === review.id)
 
     if (index === -1) newReviews.unshift(review)
     else newReviews[index] = review
 
     setReviews(newReviews)
+  }
+
+  function addToShop(review) {
+    const newShops = [...shops]
+    const index = newShops.findIndex((x) => x.id === review.shopId)
+
+    const shopReviews = newShops[index].reviews
+      ? [...newShops[index].reviews]
+      : []
+    shopReviews.push(review)
+
+    newShops[index].reviews = shopReviews
+
+    setShops(newShops)
   }
 
   React.useEffect(() => {
