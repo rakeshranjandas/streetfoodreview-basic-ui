@@ -100,6 +100,7 @@ export default function Reviews() {
         showModalWithReview={showModalWithReview}
         shops={shops}
         addNewShop={addNewShop}
+        updateReviews={updateReviews}
       />
     </div>
   )

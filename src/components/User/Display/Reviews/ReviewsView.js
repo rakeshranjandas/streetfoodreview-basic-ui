@@ -17,6 +17,7 @@ export default function ReviewsView(props) {
           reviews={props.reviews}
           shops={props.shops}
           addNewShop={props.addNewShop}
+          updateReviews={props.updateReviews}
         />
       )}
     </div>

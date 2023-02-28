@@ -66,6 +66,7 @@ export default function ReviewsViewMap(props) {
         overlayShowShop={overlayShowShop}
         shops={props.shops}
         addNewShop={props.addNewShop}
+        updateReviews={props.updateReviews}
       />
 
       <CustomMapContainer
@@ -186,7 +187,11 @@ function ReviewsViewMapOverlay(props) {
           />
         )}
         {props.overlayView === "add_review" && (
-          <ShopReviewsInPopup shops={props.shop} shop={props.overlayShowShop} />
+          <ShopReviewsInPopup
+            shops={props.shop}
+            shop={props.overlayShowShop}
+            updateReviews={props.updateReviews}
+          />
         )}
       </div>
     </div>
@@ -197,9 +202,13 @@ function ShopReviewsInPopup(props) {
   const [showAddEditReviewForm, setShowAddEditReviewForm] =
     React.useState(false)
 
+  function hideAddEditReviewForm() {
+    setShowAddEditReviewForm(false)
+  }
+
   React.useEffect(
     function () {
-      setShowAddEditReviewForm(false)
+      hideAddEditReviewForm()
     },
     [props.shop]
   )
@@ -207,7 +216,12 @@ function ShopReviewsInPopup(props) {
   return (
     <>
       {showAddEditReviewForm ? (
-        <AddEditReviewForm shops={props.shops} shop={props.shop} />
+        <AddEditReviewForm
+          shops={props.shops}
+          shop={props.shop}
+          closeModal={hideAddEditReviewForm}
+          updateReviews={props.updateReviews}
+        />
       ) : (
         <button
           onClick={() => {
