@@ -57,6 +57,10 @@ export default function ReviewsViewMap(props) {
   }
 
   function closeAddShopAndShowAddReviews(newShop) {
+    if (!newShop || !newShop.id) {
+      closeOverlay()
+      return
+    }
     setOverlayView("add_review")
     setOverlayShowShop(newShop)
   }
