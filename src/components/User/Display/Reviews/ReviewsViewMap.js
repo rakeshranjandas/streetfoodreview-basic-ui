@@ -56,6 +56,11 @@ export default function ReviewsViewMap(props) {
     setShowMapOverlay(true)
   }
 
+  function closeAddShopAndShowAddReviews(newShop) {
+    setOverlayView("add_review")
+    setOverlayShowShop(newShop)
+  }
+
   return (
     <div style={{ position: "absolute" }}>
       <ReviewsViewMapOverlay
@@ -67,6 +72,7 @@ export default function ReviewsViewMap(props) {
         shops={props.shops}
         addNewShop={props.addNewShop}
         updateReviews={props.updateReviews}
+        closeAddShopAndShowAddReviews={closeAddShopAndShowAddReviews}
       />
 
       <CustomMapContainer
@@ -186,7 +192,7 @@ function ReviewsViewMapOverlay(props) {
               props.overlayAddShopPosition[1]
             )}
             addNewShop={props.addNewShop}
-            closeFormAction={closeOverlay}
+            closeFormAction={props.closeAddShopAndShowAddReviews}
           />
         )}
         {props.overlayView === "add_review" && (

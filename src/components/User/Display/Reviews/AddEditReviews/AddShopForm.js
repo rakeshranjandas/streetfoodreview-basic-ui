@@ -44,7 +44,7 @@ export default function AddShopForm(props) {
       .then((json) => {
         props.addNewShop(json)
         !!props.setCurrentShop && props.setCurrentShop(json.id)
-        !!props.closeFormAction && props.closeFormAction()
+        !!props.closeFormAction && props.closeFormAction(json)
         resetShopName()
       })
   }
