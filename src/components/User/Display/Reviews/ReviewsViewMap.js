@@ -39,7 +39,7 @@ export default function ReviewsViewMap(props) {
   const [showMapOverlay, setShowMapOverlay] = React.useState(false)
   const [overlayView, setOverlayView] = React.useState("add_shop")
   const [overlayAddShopPosition, setOverlayAddShopPosition] = React.useState("")
-  const [overlayShowReview, setOverlayShowReview] = React.useState({})
+  const [overlayShowShop, setOverlayShowShop] = React.useState({})
 
   function closeOverlay() {
     setShowMapOverlay(false)
@@ -62,7 +62,8 @@ export default function ReviewsViewMap(props) {
         setShowMapOverlay={setShowMapOverlay}
         overlayView={overlayView}
         overlayAddShopPosition={overlayAddShopPosition}
-        overlayShowReview={overlayShowReview}
+        overlayShowShop={overlayShowShop}
+        shops={props.shops}
         addNewShop={props.addNewShop}
       />
 
@@ -102,6 +103,7 @@ export default function ReviewsViewMap(props) {
               shop={shop}
               showAddReviewInOverlay={showAddReviewInOverlay}
               setCenterPosition={setCenterPosition}
+              setOverlayShowShop={setOverlayShowShop}
             />
           )
         })}
@@ -122,6 +124,7 @@ function ShopMarker(props) {
         click: (e) => {
           props.setCenterPosition(shopPosArr)
           props.showAddReviewInOverlay()
+          props.setOverlayShowShop(props.shop)
         },
       }}
     ></Marker>
@@ -181,7 +184,9 @@ function ReviewsViewMapOverlay(props) {
             closeFormAction={closeOverlay}
           />
         )}
-        {props.overlayView == "add_review" && <AddEditReviewForm />}
+        {props.overlayView == "add_review" && (
+          <AddEditReviewForm shops={props.shops} shop={props.overlayShowShop} />
+        )}
       </div>
     </div>
   )

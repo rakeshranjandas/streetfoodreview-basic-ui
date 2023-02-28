@@ -18,7 +18,9 @@ const urlAddEditReview = `http://localhost:8081/v1/user/review`
 export default function AddEditReviewForm(props) {
   const review = props.currentReviewAddEdit
 
-  const [currentShop, setCurrentShop] = React.useState(review.shopId ?? 0)
+  const [currentShop, setCurrentShop] = React.useState(
+    review ? review.shopId : 0
+  )
   const [showAddShopModal, setShowAddShopModal] = React.useState(false)
   const [error, setError] = React.useState({})
 
@@ -67,30 +69,46 @@ export default function AddEditReviewForm(props) {
       <form ref={form}>
         <p>
           <label for="shopId">Shop:</label>
-          <select
-            id="shopId"
-            name="shopId"
+
+          {props.shop ? (
+            <span>
+              {props.shop.name}
+              <input type="hidden" name="shopId" value={props.shop.id} />
+            </span>
+          ) : (
+            <select
+              id="shopId"
+              name="shopId"
             value={currentShop}
             onChange={changeShop}
           >
             <option value="0">Select</option>
             {props.shops.map((x) => {
-              return <option value={x.id}>{x.name}</option>
-            })}
-          </select>
-          <button
-            type="button"
-            style={{ marginLeft: "10px" }}
-            onClick={() => setShowAddShopModal(true)}
-          >
-            Add New Shop
-          </button>
+                return <option value={x.id}>{x.name}</option>
+              })}
+            </select>
+          )}
+
+          {!props.shop && (
+            <button
+              type="button"
+              style={{ marginLeft: "10px" }}
+              onClick={() => setShowAddShopModal(true)}
+            >
+              Add New Shop
+            </button>
+          )}
+
           <ErrorSpan error={error.shopId} />
         </p>
 
         <p>
           <label for="rating">Rating:</label>
-          <select id="rating" name="rating" defaultValue={review.rating ?? 0}>
+          <select
+            id="rating"
+            name="rating"
+            defaultValue={review ? review.rating : 0}
+          >
             {[0, 1, 2, 3, 4, 5].map((x) => {
               return <option value={x}>{x}</option>
             })}
@@ -105,7 +123,7 @@ export default function AddEditReviewForm(props) {
             name="description"
             rows="8"
             cols="30"
-            defaultValue={review.description ?? ""}
+            defaultValue={review ? review.description : ""}
           />
         </p>
 
