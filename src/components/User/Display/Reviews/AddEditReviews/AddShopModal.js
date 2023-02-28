@@ -56,7 +56,7 @@ export default function AddShopModal(props) {
           location={location}
           setCurrentShop={props.setCurrentShop}
           addNewShop={props.addNewShop}
-          closeModal={closeModal}
+          closeFormAction={closeModal}
         />
       </div>
     </div>
