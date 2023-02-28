@@ -159,6 +159,7 @@ function ReviewsViewMapOverlay(props) {
     right: 0,
     border: "1px solid",
     transition: "width 1s",
+    overflowX: "scroll",
   }
 
   const innerDivStyles = {
