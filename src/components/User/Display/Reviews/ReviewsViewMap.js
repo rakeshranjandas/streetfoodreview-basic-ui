@@ -193,9 +193,7 @@ function ReviewsViewMapOverlay(props) {
         >
           X
         </button>
-        <p>
-          <span>{props.overlayShowShop.name}</span>
-        </p>
+
         {props.overlayView === "add_shop" && (
           <AddShopForm
             location={LatLngToLocationStr(
@@ -207,11 +205,16 @@ function ReviewsViewMapOverlay(props) {
           />
         )}
         {props.overlayView === "add_review" && (
-          <ShopReviewsInPopup
-            shops={props.shop}
-            shop={props.overlayShowShop}
-            updateReviews={props.updateReviews}
-          />
+          <>
+            <p>
+              <span>{props.overlayShowShop.name}</span>
+            </p>
+            <ShopReviewsInPopup
+              shops={props.shop}
+              shop={props.overlayShowShop}
+              updateReviews={props.updateReviews}
+            />
+          </>
         )}
       </div>
     </div>
