@@ -39,7 +39,8 @@ export default function AddEditReviewForm(props) {
 
     if (Object.keys(validationError).length !== 0) return
 
-    const postFormValues = { ...formValues, id: review.id }
+    const postFormValues = { ...formValues }
+    if (review) postFormValues.id = review.id
 
     fetch(urlAddEditReview, {
       method: "POST",

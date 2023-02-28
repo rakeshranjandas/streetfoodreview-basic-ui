@@ -232,7 +232,7 @@ function ShopReviewsInPopup(props) {
         </button>
       )}
 
-      <ShopRatings reviews={props.shop.reviews} />
+      {props.shop.reviews && <ShopRatings reviews={props.shop.reviews} />}
     </>
   )
 }
@@ -240,15 +240,17 @@ function ShopReviewsInPopup(props) {
 function ShopRatings(props) {
   return (
     <>
-      {props.reviews.map((review) => {
-        return (
-          <ReviewsViewListDisplayCard
-            review={review}
-            hideShopName={true}
-            hideEdit={true}
-          />
-        )
-      })}
+      {props.reviews
+        .map((review) => {
+          return (
+            <ReviewsViewListDisplayCard
+              review={review}
+              hideShopName={true}
+              hideEdit={true}
+            />
+          )
+        })
+        .reverse()}
     </>
   )
 }
