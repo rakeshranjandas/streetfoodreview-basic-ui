@@ -182,7 +182,13 @@ function ReviewsViewMapOverlay(props) {
     <div style={overlayStyles}>
       <div style={innerDivStyles}>
         <button
-          style={{ float: "right", border: "none", cursor: "pointer" }}
+          style={{
+            float: "right",
+            border: "none",
+            cursor: "pointer",
+            position: "sticky",
+            top: 0,
+          }}
           onClick={closeOverlay}
         >
           X
