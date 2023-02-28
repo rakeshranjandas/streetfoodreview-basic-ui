@@ -13,16 +13,20 @@ export default function ReviewsViewListDisplayCard(props) {
 
   return (
     <div style={styles}>
-      <p>{review.shop.name}</p>
+      {!props.hideShopName && <p>{review.shop.name}</p>}
+
       <p>
         <StarRating rating={review.rating} />
       </p>
       <p>{review.description}</p>
-      <p style={{ marginLeft: "auto" }}>
-        <button onClick={() => props.showModalWithReview({ ...review })}>
-          Edit
-        </button>
-      </p>
+
+      {!props.hideEdit && (
+        <p style={{ marginLeft: "auto" }}>
+          <button onClick={() => props.showModalWithReview({ ...review })}>
+            Edit
+          </button>
+        </p>
+      )}
     </div>
   )
 }

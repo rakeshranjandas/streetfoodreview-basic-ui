@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Marker, Popup, useMapEvents } from "react-leaflet"
+import { Marker, useMapEvents } from "react-leaflet"
 
 import {
   DefaultCenter,
@@ -13,6 +13,7 @@ import CustomMapContainer from "../../../Common/Map/CustomMapContainer"
 import { LocationStrToLatLng } from "../../../Common/MapLocationConvert"
 import AddShopForm from "./AddEditReviews/AddShopForm"
 import AddEditReviewForm from "./AddEditReviews/AddEditReviewForm"
+import ReviewsViewListDisplayCard from "./ReviewsViewListDisplayCard"
 
 import { LatLngToLocationStr } from "../../../Common/MapLocationConvert"
 
@@ -174,7 +175,7 @@ function ReviewsViewMapOverlay(props) {
         >
           X
         </button>
-        {props.overlayView == "add_shop" && (
+        {props.overlayView === "add_shop" && (
           <AddShopForm
             location={LatLngToLocationStr(
               props.overlayAddShopPosition[0],
@@ -184,10 +185,56 @@ function ReviewsViewMapOverlay(props) {
             closeFormAction={closeOverlay}
           />
         )}
-        {props.overlayView == "add_review" && (
-          <AddEditReviewForm shops={props.shops} shop={props.overlayShowShop} />
+        {props.overlayView === "add_review" && (
+          <ShopReviewsInPopup shops={props.shop} shop={props.overlayShowShop} />
         )}
       </div>
     </div>
+  )
+}
+
+function ShopReviewsInPopup(props) {
+  const [showAddEditReviewForm, setShowAddEditReviewForm] =
+    React.useState(false)
+
+  React.useEffect(
+    function () {
+      setShowAddEditReviewForm(false)
+    },
+    [props.shop]
+  )
+
+  return (
+    <>
+      {showAddEditReviewForm ? (
+        <AddEditReviewForm shops={props.shops} shop={props.shop} />
+      ) : (
+        <button
+          onClick={() => {
+            setShowAddEditReviewForm(true)
+          }}
+        >
+          Add New Review
+        </button>
+      )}
+
+      <ShopRatings reviews={props.shop.reviews} />
+    </>
+  )
+}
+
+function ShopRatings(props) {
+  return (
+    <>
+      {props.reviews.map((review) => {
+        return (
+          <ReviewsViewListDisplayCard
+            review={review}
+            hideShopName={true}
+            hideEdit={true}
+          />
+        )
+      })}
+    </>
   )
 }
