@@ -69,25 +69,23 @@ export default function AddEditReviewForm(props) {
       )}
       <form ref={form}>
         <p>
-          <label for="shopId">Shop:</label>
-
           {props.shop ? (
-            <span>
-              {props.shop.name}
-              <input type="hidden" name="shopId" value={props.shop.id} />
-            </span>
+            <input type="hidden" name="shopId" value={props.shop.id} />
           ) : (
-            <select
-              id="shopId"
-              name="shopId"
-            value={currentShop}
-            onChange={changeShop}
-          >
-            <option value="0">Select</option>
-            {props.shops.map((x) => {
-                return <option value={x.id}>{x.name}</option>
-              })}
-            </select>
+            <span>
+              <label for="shopId">Shop:</label>
+              <select
+                id="shopId"
+                name="shopId"
+                value={currentShop}
+                onChange={changeShop}
+              >
+                <option value="0">Select</option>
+                {props.shops.map((x) => {
+                  return <option value={x.id}>{x.name}</option>
+                })}
+              </select>
+            </span>
           )}
 
           {!props.shop && (
