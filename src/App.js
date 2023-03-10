@@ -10,5 +10,10 @@ const styles = {
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false)
 
+  React.useEffect(() => {
+    const accessToken = localStorage.getItem("access_token")
+    setIsAuthenticated(accessToken !== null)
+  }, [])
+
   return <div style={styles}>{isAuthenticated ? <User /> : <Login />}</div>
 }
