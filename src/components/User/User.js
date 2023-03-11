@@ -1,7 +1,7 @@
 import React from "react"
 import UserHeader from "./UserHeader"
 import UserDisplayArea from "./UserDisplayArea"
-import Logout from "../Common/Logout"
+import { Logout } from "../Common/LoginLogout"
 
 export default function User() {
   return (

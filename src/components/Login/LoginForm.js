@@ -5,6 +5,8 @@ import {
   ErrorSpan,
 } from "../Common/inputFieldValidation"
 
+import { Login } from "../Common/LoginLogout"
+
 const loginFormFieldValidationRules = {
   username: {
     rules: [validationRules.NON_EMPTY],
@@ -48,8 +50,7 @@ export default function LoginForm() {
           return
         }
 
-        localStorage.setItem("access_token", json.token)
-        window.location.reload()
+        Login(json.token)
       })
   }
   return (

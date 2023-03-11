@@ -1,4 +1,4 @@
-import Logout from "./Logout"
+import { Logout } from "./LoginLogout"
 
 export default function AppFetch(...params) {
   const url = params[0]
