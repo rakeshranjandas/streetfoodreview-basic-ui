@@ -1,4 +1,5 @@
 import React from "react"
+import AppFetch from "../../../../Common/AppFetch"
 import {
   validationRules,
   validate,
@@ -32,7 +33,7 @@ export default function AddShopForm(props) {
 
     if (Object.keys(validationError).length !== 0) return
 
-    fetch(urlAddShop, {
+    AppFetch(urlAddShop, {
       method: "POST",
       headers: {
         Accept: "application/json",

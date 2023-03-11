@@ -1,4 +1,5 @@
 import React from "react"
+import AppFetch from "../../../Common/AppFetch"
 
 const styles = {
   display: "flex",
@@ -21,13 +22,13 @@ export default function FriendCard(props) {
   const [isFriend, setIsFriend] = React.useState(true)
 
   function beFriend() {
-    fetch(getUrlAddFriend(props.data.id), { method: "PUT" }).then(() =>
+    AppFetch(getUrlAddFriend(props.data.id), { method: "PUT" }).then(() =>
       setIsFriend(true)
     )
   }
 
   function unFriend() {
-    fetch(getUrlRemoveFriend(props.data.id), { method: "PUT" }).then(() =>
+    AppFetch(getUrlRemoveFriend(props.data.id), { method: "PUT" }).then(() =>
       setIsFriend(false)
     )
   }

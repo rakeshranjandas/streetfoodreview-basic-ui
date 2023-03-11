@@ -5,6 +5,7 @@ import {
   validate,
   ErrorSpan,
 } from "../../../../Common/inputFieldValidation"
+import AppFetch from "../../../../Common/AppFetch"
 
 const formFieldValidationRules = {
   shopId: {
@@ -42,7 +43,7 @@ export default function AddEditReviewForm(props) {
     const postFormValues = { ...formValues }
     if (review) postFormValues.id = review.id
 
-    fetch(urlAddEditReview, {
+    AppFetch(urlAddEditReview, {
       method: "POST",
       headers: {
         Accept: "application/json",

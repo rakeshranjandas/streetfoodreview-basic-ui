@@ -3,6 +3,7 @@ import { ReviewsViewTypes } from "./ReviewsViewTypes"
 import ChooseReviewsView from "./ChooseReviewsView"
 import ReviewsView from "./ReviewsView"
 import AddEditReviewModal from "./AddEditReviews/AddEditReviewModal"
+import AppFetch from "../../../Common/AppFetch"
 
 const urlReviews = "http://localhost:8081/v1/user/1/reviews"
 const urlShops = "http://localhost:8081/v1/shop"
@@ -61,14 +62,17 @@ export default function Reviews() {
   }
 
   React.useEffect(() => {
-    fetch(urlReviews)
-      .then((res) => res.json())
+    AppFetch(urlReviews)
+      .then((res) => {
+        console.log(res)
+        return res.json()
+      })
       .then((json) => {
         console.log("Reviews", json)
         setReviews(json)
       })
 
-    fetch(urlShops)
+    AppFetch(urlShops)
       .then((res) => res.json())
       .then((json) => {
         console.log("Shops", json)
