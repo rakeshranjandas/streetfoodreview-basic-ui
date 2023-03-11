@@ -63,10 +63,7 @@ export default function Reviews() {
 
   React.useEffect(() => {
     AppFetch(urlReviews)
-      .then((res) => {
-        console.log(res)
-        return res.json()
-      })
+      .then((res) => res.json())
       .then((json) => {
         console.log("Reviews", json)
         setReviews(json)
