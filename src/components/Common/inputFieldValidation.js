@@ -3,7 +3,7 @@ export const validationRules = {
     return val !== ""
   },
   NON_ZERO: (val) => {
-    return val != "0"
+    return val !== "0"
   },
 }
 
@@ -27,6 +27,8 @@ export function validate(data, rules) {
 
       return false
     })
+
+    return true
   })
 
   return error
