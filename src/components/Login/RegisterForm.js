@@ -1,8 +1,71 @@
 import React from "react"
+import {
+  validationRules,
+  validate,
+  ErrorSpan,
+} from "../Common/inputFieldValidation"
+
+const registerFormFieldValidationRules = {
+  username: {
+    rules: [validationRules.NON_EMPTY],
+    message: "username cannot be blank.",
+  },
+  email: {
+    rules: [validationRules.NON_EMPTY],
+    message: "email cannot be blank.",
+  },
+  password: {
+    rules: [validationRules.NON_EMPTY],
+    message: "password cannot be blank.",
+  },
+}
+
+const urlRegister = "http://localhost:8081/v1/auth/register"
 
 export default function RegisterForm() {
+  const [error, setError] = React.useState({})
+
+  const formRef = React.useRef()
+
+  function submitRegisterForm() {
+    const formData = new FormData(formRef.current)
+    const formValues = Object.fromEntries(formData.entries())
+
+    const validationError = validate(
+      formValues,
+      registerFormFieldValidationRules
+    )
+
+    if (formValues.password !== formValues.confirm_password) {
+      validationError["confirm_password"] = "passwords do not match."
+    }
+
+    setError(validationError)
+
+    if (Object.keys(validationError).length !== 0) return
+
+    fetch(urlRegister, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formValues),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.error === "Forbidden") {
+          alert("Bad Login")
+          return
+        }
+
+        localStorage.setItem("access_token", json.token)
+        window.location.reload()
+      })
+  }
+
   return (
-    <div>
+    <form ref={formRef}>
       <p style={{ textAlign: "center", color: "blue" }}>Register</p>
       <table>
         <tbody>
@@ -11,7 +74,8 @@ export default function RegisterForm() {
               <span>username:</span>
             </td>
             <td>
-              <input type="text" />
+              <input type="text" name="username" />
+              <ErrorSpan error={error.username} />
             </td>
           </tr>
 
@@ -20,7 +84,8 @@ export default function RegisterForm() {
               <span>email:</span>
             </td>
             <td>
-              <input type="text" />
+              <input type="text" name="email" />
+              <ErrorSpan error={error.email} />
             </td>
           </tr>
 
@@ -29,7 +94,8 @@ export default function RegisterForm() {
               <span>password:</span>
             </td>
             <td>
-              <input type="password" />
+              <input type="password" name="password" />
+              <ErrorSpan error={error.password} />
             </td>
           </tr>
 
@@ -38,15 +104,18 @@ export default function RegisterForm() {
               <span>confirm password:</span>
             </td>
             <td>
-              <input type="password" />
+              <input type="password" name="confirm_password" />
+              <ErrorSpan error={error.confirm_password} />
             </td>
           </tr>
         </tbody>
       </table>
 
       <p>
-        <button>Submit</button>
+        <button type="button" onClick={submitRegisterForm}>
+          Submit
+        </button>
       </p>
-    </div>
+    </form>
   )
 }
