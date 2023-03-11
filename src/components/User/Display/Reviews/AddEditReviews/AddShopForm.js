@@ -17,7 +17,7 @@ const formFieldValidationRules = {
   },
 }
 
-const urlAddShop = `http://localhost:8081/v1/shop`
+const urlAddShop = `shop`
 
 export default function AddShopForm(props) {
   const [error, setError] = React.useState({})

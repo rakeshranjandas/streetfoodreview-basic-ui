@@ -12,7 +12,7 @@ const imgStyle = {
   height: "100px",
   width: "100px",
 }
-const urlGetUserName = "http://localhost:8081/v1/user/0"
+const urlGetUserName = "user/0"
 
 export default function UserHeader() {
   const [username, setUsername] = React.useState("")

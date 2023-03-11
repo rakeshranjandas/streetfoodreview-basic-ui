@@ -14,7 +14,7 @@ const formFieldValidationRules = {
   },
 }
 
-const urlAddEditReview = `http://localhost:8081/v1/user/review`
+const urlAddEditReview = `user/review`
 
 export default function AddEditReviewForm(props) {
   const review = props.currentReviewAddEdit

@@ -5,8 +5,8 @@ import ReviewsView from "./ReviewsView"
 import AddEditReviewModal from "./AddEditReviews/AddEditReviewModal"
 import AppFetch from "../../../Common/AppFetch"
 
-const urlReviews = "http://localhost:8081/v1/user/1/reviews"
-const urlShops = "http://localhost:8081/v1/shop"
+const urlReviews = "user/0/reviews"
+const urlShops = "shop"
 
 export default function Reviews() {
   const [reviews, setReviews] = React.useState([])

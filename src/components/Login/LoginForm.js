@@ -6,6 +6,7 @@ import {
 } from "../Common/inputFieldValidation"
 
 import { Login } from "../Common/LoginLogout"
+import { AppSite } from "../Common/AppSite"
 
 const loginFormFieldValidationRules = {
   username: {
@@ -18,7 +19,7 @@ const loginFormFieldValidationRules = {
   },
 }
 
-const urlLogin = "http://localhost:8081/v1/auth/authenticate"
+const urlLogin = AppSite + "auth/authenticate"
 
 export default function LoginForm() {
   const [error, setError] = React.useState({})

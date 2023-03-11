@@ -5,6 +5,8 @@ import {
   ErrorSpan,
 } from "../Common/inputFieldValidation"
 
+import { AppSite } from "../Common/AppSite"
+
 const registerFormFieldValidationRules = {
   username: {
     rules: [validationRules.NON_EMPTY],
@@ -20,7 +22,7 @@ const registerFormFieldValidationRules = {
   },
 }
 
-const urlRegister = "http://localhost:8081/v1/auth/register"
+const urlRegister = AppSite + "auth/register"
 
 export default function RegisterForm() {
   const [error, setError] = React.useState({})

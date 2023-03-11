@@ -2,7 +2,7 @@ import React from "react"
 import AppFetch from "../../../Common/AppFetch"
 import FriendCard from "./FriendCard"
 
-const urlFetchFriends = "http://localhost:8081/v1/user/1/friends"
+const urlFetchFriends = "user/0/friends"
 
 export default function Friends() {
   const [friendList, setFriendList] = React.useState([])
