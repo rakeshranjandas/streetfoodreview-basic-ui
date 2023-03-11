@@ -21,7 +21,7 @@ export function validate(data, rules) {
 
     rulesArr.rules.map((rule) => {
       if (!rule(data[key])) {
-        error[key] = rulesArr.message
+        error[key] = rulesArr.message ?? key + " is not given properly"
         return false
       }
 
