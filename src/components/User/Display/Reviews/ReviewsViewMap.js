@@ -66,6 +66,30 @@ export default function ReviewsViewMap(props) {
     setOverlayShowShop(newShop)
   }
 
+  const shopsWithReviews = React.useMemo(() => {
+    // Need Deep copy.
+    // Spread only performs deep copy in first level.
+    // That is why during spread, creating reviews key in nshops automatically created the same in prop.shops
+    let nshops = JSON.parse(JSON.stringify(props.shops))
+
+    props.reviews.forEach((review) => {
+      const shopIndex = nshops.findIndex((shop) => shop.id === review.shopId)
+      const nshop = nshops[shopIndex]
+
+      if (!nshop.reviews) nshop.reviews = []
+      nshop.reviews.unshift(review)
+    })
+
+    return nshops
+  }, [props.reviews, props.shops])
+
+  React.useEffect(() => {
+    overlayShowShop.id &&
+      setOverlayShowShop(
+        shopsWithReviews.find((nshop) => nshop.id === overlayShowShop.id)
+      )
+  }, [shopsWithReviews, overlayShowShop])
+
   return (
     <div style={{ position: "absolute" }}>
       <ReviewsViewMapOverlay
@@ -74,7 +98,7 @@ export default function ReviewsViewMap(props) {
         overlayView={overlayView}
         overlayAddShopPosition={overlayAddShopPosition}
         overlayShowShop={overlayShowShop}
-        shops={props.shops}
+        shops={shopsWithReviews}
         addNewShop={props.addNewShop}
         updateReviews={props.updateReviews}
         closeAddShopAndShowAddReviews={closeAddShopAndShowAddReviews}
@@ -110,7 +134,7 @@ export default function ReviewsViewMap(props) {
           }}
         />
 
-        {props.shops.map((shop) => {
+        {shopsWithReviews.map((shop) => {
           return (
             <ShopMarker
               shop={shop}
@@ -132,7 +156,11 @@ function ShopMarker(props) {
   return (
     <Marker
       position={shopPosArr}
-      icon={ShopIcon}
+      icon={
+        !props.shop.reviews || props.shop.reviews.length === 0
+          ? GrayShopIcon
+          : ShopIcon
+      }
       eventHandlers={{
         click: (e) => {
           props.setCenterPosition(shopPosArr)
