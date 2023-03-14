@@ -120,7 +120,7 @@ export default function AddEditReviewForm(props) {
 
         <p>
           <button type="button" onClick={doSubmit}>
-            Add Review
+            {review ? "Update Review" : "Add Review"}
           </button>
           <button
             type="button"
@@ -132,19 +132,6 @@ export default function AddEditReviewForm(props) {
         </p>
       </form>
     </div>
-  )
-}
-
-function StarRatingChoose2(props) {
-  return (
-    <>
-      <label for="rating">Rating:</label>
-      <select id="rating" name="rating" defaultValue={props.rating}>
-        {[0, 1, 2, 3, 4, 5].map((x) => {
-          return <option value={x}>{x}</option>
-        })}
-      </select>
-    </>
   )
 }
 
