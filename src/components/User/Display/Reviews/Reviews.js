@@ -34,7 +34,7 @@ export default function Reviews() {
 
   function updateReviews(review) {
     addToReviews(review)
-    addToShop(review)
+    // addToShop(review)
   }
 
   function addToReviews(review) {
