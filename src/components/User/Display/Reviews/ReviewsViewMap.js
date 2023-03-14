@@ -6,6 +6,7 @@ import {
   DefaultCenter,
   PinPositionIcon,
   ShopIcon,
+  GrayShopIcon,
   ReviewsMapContainerSettings,
 } from "../../../Common/Map/MapSettings"
 

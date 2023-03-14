@@ -1,5 +1,6 @@
 import defaultMarkerIconPng from "leaflet/dist/images/marker-icon.png"
 import shopMarkerIconPng from "../../../assets/shop-marker.png"
+import grayMarkerIconPng from "../../../assets/shop-marker-gray.png"
 
 import { Icon } from "leaflet"
 
@@ -15,6 +16,12 @@ export const ShopIcon = new Icon({
   iconUrl: shopMarkerIconPng,
   iconSize: [22, 32],
   className: "shop-map-marker",
+})
+
+export const GrayShopIcon = new Icon({
+  iconUrl: grayMarkerIconPng,
+  iconSize: [20, 32],
+  className: "gray-map-marker",
 })
 
 export const PinPositionIcon = new Icon({
