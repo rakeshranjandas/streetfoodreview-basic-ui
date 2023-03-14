@@ -26,7 +26,9 @@ export default function LoginForm() {
 
   const formRef = React.useRef()
 
-  function submitLoginForm() {
+  function submitLoginForm(e) {
+    e.preventDefault()
+
     const formData = new FormData(formRef.current)
     const formValues = Object.fromEntries(formData.entries())
     console.log(formValues)
@@ -82,9 +84,7 @@ export default function LoginForm() {
       </table>
 
       <p>
-        <button type="button" onClick={submitLoginForm}>
-          Submit
-        </button>
+        <input type="submit" onClick={submitLoginForm} value="Submit" />
       </p>
     </form>
   )

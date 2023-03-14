@@ -29,7 +29,9 @@ export default function RegisterForm() {
 
   const formRef = React.useRef()
 
-  function submitRegisterForm() {
+  function submitRegisterForm(e) {
+    e.preventDefault()
+
     const formData = new FormData(formRef.current)
     const formValues = Object.fromEntries(formData.entries())
 
@@ -114,9 +116,7 @@ export default function RegisterForm() {
       </table>
 
       <p>
-        <button type="button" onClick={submitRegisterForm}>
-          Submit
-        </button>
+        <input type="submit" onClick={submitRegisterForm} value="Submit" />
       </p>
     </form>
   )
