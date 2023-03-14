@@ -103,16 +103,7 @@ export default function AddEditReviewForm(props) {
         </p>
 
         <p>
-          <label for="rating">Rating:</label>
-          <select
-            id="rating"
-            name="rating"
-            defaultValue={review ? review.rating : 0}
-          >
-            {[0, 1, 2, 3, 4, 5].map((x) => {
-              return <option value={x}>{x}</option>
-            })}
-          </select>
+          <StarRatingChoose rating={review ? review.rating : 0} />
         </p>
 
         <p>
@@ -141,5 +132,62 @@ export default function AddEditReviewForm(props) {
         </p>
       </form>
     </div>
+  )
+}
+
+function StarRatingChoose2(props) {
+  return (
+    <>
+      <label for="rating">Rating:</label>
+      <select id="rating" name="rating" defaultValue={props.rating}>
+        {[0, 1, 2, 3, 4, 5].map((x) => {
+          return <option value={x}>{x}</option>
+        })}
+      </select>
+    </>
+  )
+}
+
+function StarRatingChoose(props) {
+  const [rating, setRating] = React.useState(props.rating ?? 0)
+
+  function changeRating(newRating) {
+    setRating(newRating)
+  }
+
+  return (
+    <>
+      <label for="rating">Rating:</label>
+      <input type="hidden" name="rating" value={rating} />
+      <span
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          changeRating(0)
+        }}
+      >
+        x
+      </span>
+      {new Array(5).fill(0).map((x, idx) => {
+        return idx < rating ? (
+          <span
+            style={{ cursor: "pointer", color: "red" }}
+            onClick={() => {
+              changeRating(idx + 1)
+            }}
+          >
+            &#9733;
+          </span>
+        ) : (
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              changeRating(idx + 1)
+            }}
+          >
+            &#9734;
+          </span>
+        )
+      })}
+    </>
   )
 }
